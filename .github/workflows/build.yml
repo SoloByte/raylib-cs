@@ -26,8 +26,21 @@ jobs:
           echo "pkgversion=$(sed -n 's/.*<PackageVersion>\(.*\)<\/PackageVersion>.*/\1/p' Raylib-cs/Build.props)">> ${GITHUB_OUTPUT}
 
   build-linux:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.runner }}
     needs: build
+    continue-on-error: ${{ matrix.continue-on-error }}
+    strategy:
+      matrix:
+        name: [x64, arm64]
+        include:
+          - name: x64
+            arch: x86_64
+            runner: ubuntu-22.04
+            continue-on-error: false
+          - name: arm64
+            arch: aarch64
+            runner: ubuntu-24.04-arm
+            continue-on-error: true
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
@@ -61,7 +74,7 @@ jobs:
       - name: upload build
         uses: actions/upload-artifact@v4
         with:
-          name: linux-x64
+          name: linux-${{ matrix.name }}
           path: Raylib-cs.Native/bin/Release/native/raylib/libraylib.so
           if-no-files-found: error
 
@@ -103,14 +116,20 @@ jobs:
   build-windows:
     runs-on: windows-latest
     needs: build
+    continue-on-error: ${{ matrix.continue-on-error }}
     strategy:
       matrix:
-        name: [x86, x64]
+        name: [x86, x64, arm64]
         include:
           - name: x86
             arch: win32
+            continue-on-error: false
           - name: x64
             arch: x64
+            continue-on-error: false
+          - name: arm64
+            arch: arm64
+            continue-on-error: true
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
@@ -152,6 +171,12 @@ jobs:
 
       - uses: actions/download-artifact@v4.1.7
         with:
+          name: linux-arm64
+          path: Raylib-cs/runtimes/linux-arm64/native
+        continue-on-error: true
+
+      - uses: actions/download-artifact@v4.1.7
+        with:
           name: osx-arm64
           path: Raylib-cs/runtimes/osx-arm64/native
 
@@ -169,6 +194,12 @@ jobs:
         with:
           name: win-x64
           path: Raylib-cs/runtimes/win-x64/native
+
+      - uses: actions/download-artifact@v4.1.7
+        with:
+          name: win-arm64
+          path: Raylib-cs/runtimes/win-arm64/native
+        continue-on-error: true
 
       - name: setup dotnet
         uses: actions/setup-dotnet@v4
