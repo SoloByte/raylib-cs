@@ -207,39 +207,39 @@ jobs:
       - name: organize runtimes folder structure
         shell: bash
         run: |
-          mkdir -p runtimes/Windows-x64
-          mkdir -p runtimes/Windows-x86
-          mkdir -p runtimes/Windows-arm64
-          mkdir -p runtimes/osx-x64
-          mkdir -p runtimes/osx-arm64
-          mkdir -p runtimes/Linux-x64
-          mkdir -p runtimes/Linux-arm64
+          mkdir -p runtimes/win-x64/native
+          mkdir -p runtimes/win-x86/native
+          mkdir -p runtimes/win-arm64/native
+          mkdir -p runtimes/osx-x64/native
+          mkdir -p runtimes/osx-arm64/native
+          mkdir -p runtimes/linux-x64/native
+          mkdir -p runtimes/linux-arm64/native
           
           # Copy Windows binaries
           if [ -f "Raylib-cs/runtimes/win-x64/native/raylib.dll" ]; then
-            cp Raylib-cs/runtimes/win-x64/native/raylib.dll runtimes/Windows-x64/
+            cp Raylib-cs/runtimes/win-x64/native/raylib.dll runtimes/win-x64/native/
           fi
           if [ -f "Raylib-cs/runtimes/win-x86/native/raylib.dll" ]; then
-            cp Raylib-cs/runtimes/win-x86/native/raylib.dll runtimes/Windows-x86/
+            cp Raylib-cs/runtimes/win-x86/native/raylib.dll runtimes/win-x86/native/
           fi
           if [ -f "Raylib-cs/runtimes/win-arm64/native/raylib.dll" ]; then
-            cp Raylib-cs/runtimes/win-arm64/native/raylib.dll runtimes/Windows-arm64/
+            cp Raylib-cs/runtimes/win-arm64/native/raylib.dll runtimes/win-arm64/native/
           fi
           
           # Copy macOS binaries
           if [ -f "Raylib-cs/runtimes/osx-x64/native/libraylib.dylib" ]; then
-            cp Raylib-cs/runtimes/osx-x64/native/libraylib.dylib runtimes/osx-x64/
+            cp Raylib-cs/runtimes/osx-x64/native/libraylib.dylib runtimes/osx-x64/native/
           fi
           if [ -f "Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib" ]; then
-            cp Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib runtimes/osx-arm64/
+            cp Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib runtimes/osx-arm64/native/
           fi
           
           # Copy Linux binaries
           if [ -f "Raylib-cs/runtimes/linux-x64/native/libraylib.so" ]; then
-            cp Raylib-cs/runtimes/linux-x64/native/libraylib.so runtimes/Linux-x64/
+            cp Raylib-cs/runtimes/linux-x64/native/libraylib.so runtimes/linux-x64/native/
           fi
           if [ -f "Raylib-cs/runtimes/linux-arm64/native/libraylib.so" ]; then
-            cp Raylib-cs/runtimes/linux-arm64/native/libraylib.so runtimes/Linux-arm64/
+            cp Raylib-cs/runtimes/linux-arm64/native/libraylib.so runtimes/linux-arm64/native/
           fi
           
           # Display the structure
