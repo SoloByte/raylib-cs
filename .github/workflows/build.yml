@@ -204,6 +204,54 @@ jobs:
       - name: create NuGet Package
         run: dotnet pack Raylib-cs -c Release --output nuget
 
+      - name: organize runtimes folder structure
+        shell: bash
+        run: |
+          mkdir -p runtimes/Windows-x64
+          mkdir -p runtimes/Windows-x86
+          mkdir -p runtimes/Windows-arm64
+          mkdir -p runtimes/MacOS-x64
+          mkdir -p runtimes/MacOS-arm64
+          mkdir -p runtimes/Linux-x64
+          mkdir -p runtimes/Linux-arm64
+          
+          # Copy Windows binaries
+          if [ -f "Raylib-cs/runtimes/win-x64/native/raylib.dll" ]; then
+            cp Raylib-cs/runtimes/win-x64/native/raylib.dll runtimes/Windows-x64/
+          fi
+          if [ -f "Raylib-cs/runtimes/win-x86/native/raylib.dll" ]; then
+            cp Raylib-cs/runtimes/win-x86/native/raylib.dll runtimes/Windows-x86/
+          fi
+          if [ -f "Raylib-cs/runtimes/win-arm64/native/raylib.dll" ]; then
+            cp Raylib-cs/runtimes/win-arm64/native/raylib.dll runtimes/Windows-arm64/
+          fi
+          
+          # Copy macOS binaries
+          if [ -f "Raylib-cs/runtimes/osx-x64/native/libraylib.dylib" ]; then
+            cp Raylib-cs/runtimes/osx-x64/native/libraylib.dylib runtimes/MacOS-x64/
+          fi
+          if [ -f "Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib" ]; then
+            cp Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib runtimes/MacOS-arm64/
+          fi
+          
+          # Copy Linux binaries
+          if [ -f "Raylib-cs/runtimes/linux-x64/native/libraylib.so" ]; then
+            cp Raylib-cs/runtimes/linux-x64/native/libraylib.so runtimes/Linux-x64/
+          fi
+          if [ -f "Raylib-cs/runtimes/linux-arm64/native/libraylib.so" ]; then
+            cp Raylib-cs/runtimes/linux-arm64/native/libraylib.so runtimes/Linux-arm64/
+          fi
+          
+          # Display the structure
+          echo "Runtimes folder structure:"
+          ls -R runtimes/
+
+      - name: upload runtimes artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtimes
+          path: runtimes/
+
       - name: upload NuGet Package As Artifact
         uses: actions/upload-artifact@v4
         with:
