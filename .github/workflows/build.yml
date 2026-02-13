@@ -210,8 +210,8 @@ jobs:
           mkdir -p runtimes/Windows-x64
           mkdir -p runtimes/Windows-x86
           mkdir -p runtimes/Windows-arm64
-          mkdir -p runtimes/MacOS-x64
-          mkdir -p runtimes/MacOS-arm64
+          mkdir -p runtimes/osx-x64
+          mkdir -p runtimes/osx-arm64
           mkdir -p runtimes/Linux-x64
           mkdir -p runtimes/Linux-arm64
           
@@ -228,10 +228,10 @@ jobs:
           
           # Copy macOS binaries
           if [ -f "Raylib-cs/runtimes/osx-x64/native/libraylib.dylib" ]; then
-            cp Raylib-cs/runtimes/osx-x64/native/libraylib.dylib runtimes/MacOS-x64/
+            cp Raylib-cs/runtimes/osx-x64/native/libraylib.dylib runtimes/osx-x64/
           fi
           if [ -f "Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib" ]; then
-            cp Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib runtimes/MacOS-arm64/
+            cp Raylib-cs/runtimes/osx-arm64/native/libraylib.dylib runtimes/osx-arm64/
           fi
           
           # Copy Linux binaries
