@@ -45,6 +45,10 @@
     <CMakeArgs Include="-A x64" />
   </ItemGroup>
 
+  <ItemGroup Condition="$([MSBuild]::IsOsPlatform('Windows')) AND $(NativeArch) == 'arm64'">
+    <CMakeArgs Include="-A ARM64" />
+  </ItemGroup>
+
   <ItemGroup>
     <Content Include="$(OutputPath)native/raylib/$(NativePre)raylib.$(NativeExt)" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Condition="Exists('$(OutputPath)native/raylib/$(NativePre)raylib.$(NativeExt)')" />
 
@@ -69,3 +73,4 @@
     <Exec Command="cmake --build $(OutputPath)native --config $(Configuration)" />
   </Target>
 </Project>
+
