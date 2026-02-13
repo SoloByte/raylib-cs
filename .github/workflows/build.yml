@@ -1,12 +1,5 @@
 name: Build
 on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["*"]
-    paths-ignore:
-      - "README.md"
-      - ".github/ISSUE_TEMPLATE/**"
   workflow_dispatch:
 jobs:
   build:
@@ -214,17 +207,5 @@ jobs:
       - name: upload NuGet Package As Artifact
         uses: actions/upload-artifact@v4
         with:
+          name: nuget-package
           path: nuget/*
-
-      - name: upload NuGet Package As Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: nuget/*
-
-      - name: publish to NuGet
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          dotnet nuget push \
-            nuget/* \
-            --api-key ${{secrets.NUGET_API_KEY}}
